@@ -1,10 +1,15 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.contrib.auth.models import User
 
-# Create your models here.
+class CustomUser(AbstractUser):
+    phone_number = models.CharField(max_length=15)
+    # Add more custom fields if needed
+
+    def __str__(self):
+        return self.username
 
 class Customer(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
 
 
     def __str__(self):

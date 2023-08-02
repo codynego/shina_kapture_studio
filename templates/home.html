@@ -2,6 +2,9 @@
 {% load static %}
 
 
+{% block "header" %}
+    {% include 'components/header.html'%}
+{% endblock "header" %}
 {% block "content" %}
  <!-- Hero Section Begin -->
  <section class="hero-section">
@@ -243,3 +246,7 @@
 </section>
 <!-- Portfolio Section End -->
  {% endblock "content" %}
+
+{% block "footer" %}
+    {% include 'components/footer.html'%}
+{% endblock "footer" %}
