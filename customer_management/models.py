@@ -1,19 +1,22 @@
-from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-class CustomUser(AbstractUser):
-    phone_number = models.CharField(max_length=15)
-    # Add more custom fields if needed
+# Create your models here.
+from django.contrib.auth.models import User
+from django.db import models
 
-    def __str__(self):
-        return self.username
+
 
 class Customer(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    phone_number = models.CharField(max_length=15)
+    email_address = models.CharField(max_length=15)
+    address = models.CharField(max_length=255)
+    date = models.DateField(auto_now_add=True)
 
 
     def __str__(self):
-        return self.user.username
+        return self.name
+    
     
 
 class Gallery(models.Model):
@@ -22,7 +25,7 @@ class Gallery(models.Model):
     created_at = models.DateTimeField(auto_created=True)
 
     def __str__(self):
-        return self.customer.user.username
+        return self.customer.name
     
 
 class ServiceTransaction(models.Model):
@@ -42,5 +45,5 @@ class ServiceTransaction(models.Model):
 
 
     def __str__(self):
-        return self.customer.user.username
+        return self.customer.name
      
