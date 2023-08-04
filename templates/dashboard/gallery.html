@@ -1,0 +1,37 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block "content" %}
+<!-- Gallery Section Begin -->
+<br>
+<br>
+<div class="gallery-section spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="filter-controls">
+                    <ul>
+                        <li class="active" data-filter="*">All</li>
+                        <li data-filter=".fashion">Wedding</li>
+                        <li data-filter=".lifestyle">Birthday</li>
+                        <li data-filter=".natural">Family Pics</li>
+                        <li data-filter=".videos">Others</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 p-0">
+                <div class="gallery-filter">
+                    {% for gallery in gallerys %}
+                    <div class="gf-item set-bg {{gallery.category}}" data-setbg="{{ gallery.images.url }}">
+                        <a href="{{ gallery.images.url }}" class="gf-icon image-popup"><span class="icon_plus"></span></a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock "content" %}

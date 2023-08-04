@@ -4,6 +4,13 @@
 {% block "content" %}
     <div class="container-fluid py-4">
       <div class="row">
+        <a href="{% url 'customer_create' %}">
+          <div class="col-12 btn">
+            <button>add New</button>
+          </div>
+        </a>
+      </div>
+      <div class="row">
         <div class="col-12">
           <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
@@ -16,6 +23,7 @@
                 <table class="table align-items-center mb-0">
                   <thead>
                     <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Customers</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Phone Number</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Address</th>
@@ -27,6 +35,9 @@
                     {% for customer in customers %}
                     <tr>
                       <td>
+                        <p class="text-xs font-weight-bold mb-0">{{ customer.id }}</p>
+                      </td>
+                      <td>
                         <div class="d-flex px-2 py-1">
                           <div class="d-flex flex-column justify-content-center">
                             <h6 class="mb-0 text-sm">{{ customer.name }}</h6>
@@ -35,13 +46,12 @@
                       </td>
                       <td>
                         <p class="text-xs font-weight-bold mb-0">{{ customer.phone_number }}</p>
-                        <p class="text-xs text-secondary mb-0">Organization</p>
                       </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-success">Online</span>
+                      <td class="align-middle text-center d-flex px-2 py-4">
+                        <p class="text-xs font-weight-bold mb-0">{{ customer.address }}</p>
                       </td>
                       <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">23/04/18</span>
+                        <span class="text-secondary text-xs font-weight-bold">{{ customer.date }}</span>
                       </td>
                       <td class="align-middle">
                         <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
