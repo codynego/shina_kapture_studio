@@ -58,59 +58,6 @@
 
 
 
-  <!-- Your existing HTML content goes here -->
-  
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script>
-    function updateSearchResults() {
-      var query = $('#search-input').val();
-      if (query) {
-        $.ajax({
-          url: '/search/',
-          data: { 'q': query },
-          dataType: 'json',
-          success: function(data) {
-            var resultsContainer = $('#search-results');
-            resultsContainer.empty();  // Clear previous results
-  
-            if (data.customers.length > 0) {
-              data.customers.forEach(function(customer) {
-                var newRow = `
-                  <tr>
-                    <td><p class="text-xs font-weight-bold mb-0">${customer.id}</p></td>
-                    <td>
-                      <div class="d-flex px-2 py-1">
-                        <div class="d-flex flex-column justify-content-center">
-                          <h6 class="mb-0 text-sm">${customer.name}</h6>
-                        </div>
-                      </div>
-                    </td>
-                    <td><p class="text-xs font-weight-bold mb-0">${customer.phone_number}</p></td>
-                    <td class="align-middle text-center d-flex px-2 py-4">
-                      <p class="text-xs font-weight-bold mb-0">${customer.address}</p>
-                    </td>
-                    <td class="align-middle text-center">
-                      <span class="text-secondary text-xs font-weight-bold">${customer.date}</span>
-                    </td>
-                  </tr>
-                `;
-                resultsContainer.append(newRow);
-              });
-            } else {
-              var noResultsItem = $('<tr><td colspan="6">No results found.</td></tr>');
-              resultsContainer.append(noResultsItem);
-            }
-          }
-        });
-      }
-    }
-  
-    // Update the search results every 5 seconds (5000 milliseconds)
-    setInterval(updateSearchResults, 2000);
-  </script>
-  
-
-
  <!--   Core JS Files   -->
  <!--   Core JS Files   -->
  <script src="{% static 'js/core/popper.min.js' %}"></script>

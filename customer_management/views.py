@@ -126,12 +126,14 @@ from django.http import JsonResponse
 def customer_search(request):
     if request.method == 'GET':
         query = request.GET.get('q', '')
-        customers = Customer.objects.filter(
-            Q(name__icontains=query) |
-            Q(phone_number__icontains=query) |
-            Q(id__icontains=query)
-        )
-
+        if query is not '':
+            customers = Customer.objects.filter(
+                Q(name__icontains=query) |
+                Q(phone_number__icontains=query) |
+                Q(id__icontains=query)
+            )
+        else:
+            customers = customers.objects.all()
         data = {
             "customers": [
                 {
@@ -146,24 +148,31 @@ def customer_search(request):
         return JsonResponse(data)
     
 
-def Transaction_search(request):
+def transaction_search(request):
     if request.method == 'GET':
         query = request.GET.get('q', '')
-        transaction = ServiceTransaction.objects.filter(
+        if query is not '':
+            transactions = ServiceTransaction.objects.filter(
             Q(customer__name__icontains=query) |
             Q(type__icontains=query) |
             Q(id__icontains=query)
-        )
+            )
+        else:
+            transactions = ServiceTransaction.objects.all()
 
         data = {
-            "customers": [
+            "transactions": [
                 {
-                    "id": tr.id,
-                    "name": customer.name,
-                    "phone_number": customer.phone_number,
-                    "address": customer.address,
-                    "date": customer.date,
-                } for customer in customers
+                    "id": transaction.id,
+                    "name": transaction.customer.name,
+                    "type": transaction.type,
+                    "quantity": transaction.quantity,
+                    "total_amount": transaction.total_amount,
+                    "amount_paid": transaction.amount_paid,
+                    "payment_method": transaction.payment_method,
+                    "balance": transaction.balance,
+                    "created_at": transaction.created_at,
+                } for transaction in transactions
             ]
         }
         return JsonResponse(data)

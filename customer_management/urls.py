@@ -13,6 +13,7 @@ urlpatterns = [
     path('gallery/', views.gallery, name="gallery"),
     path('login/', views.user_login, name="login"),
     path('logout/', views.user_logout, name="logout"),
-    path('search/', views.search_view, name="search"),
+    path('customer_search/', views.customer_search, name="customer_search"),
+    path('transaction_search/', views.transaction_search, name="transaction_search"),
     path('search-form/', views.search_form_view, name='search_form'),
 ]
