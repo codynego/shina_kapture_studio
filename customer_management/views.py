@@ -5,6 +5,7 @@ from .forms import CustomerForm, LoginForm, TransactionForm, TransactionCreateFo
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 # Create your views here.
 
@@ -86,6 +87,23 @@ def transaction_create(request):
         form = TransactionCreateForm()
     return render(request, 'dashboard/transaction_create.html', {'form': form})
 
+
+@login_required
+def customer_detail(request, id):
+    if request.user.is_authenticated:
+        if Customer.objects.filter(id=id).exists:
+            customer = Customer.objects.get(id=id)
+            gallery = Gallery.objects.filter(id=id)
+            context = {
+                "customer": customer,
+                "gallery": gallery
+            }
+        else:
+            return HttpResponse("404 not found")
+        return render(request, 'dashboard/customer_detail.html', context)
+    else:
+        return redirect('login')
+
 def gallery(request):
     gallerys = Gallery.objects.all()
     context = {
@@ -102,3 +120,58 @@ def gallery(request):
     else:
         form = GalleryForm()
     return render(request, 'gallery/add_gallery_item.html', {'form': form})"""
+
+from django.http import JsonResponse
+
+def customer_search(request):
+    if request.method == 'GET':
+        query = request.GET.get('q', '')
+        customers = Customer.objects.filter(
+            Q(name__icontains=query) |
+            Q(phone_number__icontains=query) |
+            Q(id__icontains=query)
+        )
+
+        data = {
+            "customers": [
+                {
+                    "id": customer.id,
+                    "name": customer.name,
+                    "phone_number": customer.phone_number,
+                    "address": customer.address,
+                    "date": customer.date,
+                } for customer in customers
+            ]
+        }
+        return JsonResponse(data)
+    
+
+def Transaction_search(request):
+    if request.method == 'GET':
+        query = request.GET.get('q', '')
+        transaction = ServiceTransaction.objects.filter(
+            Q(customer__name__icontains=query) |
+            Q(type__icontains=query) |
+            Q(id__icontains=query)
+        )
+
+        data = {
+            "customers": [
+                {
+                    "id": tr.id,
+                    "name": customer.name,
+                    "phone_number": customer.phone_number,
+                    "address": customer.address,
+                    "date": customer.date,
+                } for customer in customers
+            ]
+        }
+        return JsonResponse(data)
+
+def search_form_view(request):
+    customers = Customer.objects.all()
+
+    context = {
+        "customers": customers
+    }
+    return render(request, 'dashboard/search.html', context)

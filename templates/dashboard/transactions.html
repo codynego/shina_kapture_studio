@@ -3,13 +3,13 @@
 
 {% block "content" %}
     <div class="container-fluid py-4">
-      <div class="row">
-        <a href="{% url 'transaction_create' %}">
-          <div class="col-12 btn">
-            <button>add New</button>
-          </div>
-        </a>
-      </div>
+      <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+        <div class="input-group input-group-outline">
+          <label class="form-label">search here...</label>
+          <input type="text" class="form-control" id="search-input">
+        </div>
+      </div><br><br>
+
       <div class="row">
         <div class="col-12">
           <div class="card my-4">
@@ -21,7 +21,7 @@
             <div class="card-body px-0 pb-2">
               <div class="table-responsive p-0">
                 <table class="table align-items-center mb-0">
-                  <thead>
+                  <thead id="search-results">
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Customer name</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">copies</th>
@@ -29,6 +29,7 @@
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Total Amount</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Amount Paid</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Balance</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Payment Method</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
                       <th class="text-secondary opacity-7"></th>
                     </tr>
@@ -39,7 +40,7 @@
                       <td>
                         <div class="d-flex px-2 py-1">
                           <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">{{ transaction.name }}</h6>
+                            <h6 class="mb-0 text-sm">{{ transaction.customer.name }}</h6>
                           </div>
                         </div>
                       </td>
@@ -57,6 +58,9 @@
                       </td>
                       <td>
                         <p class="text-xs font-weight-bold mb-0">{{ transaction.balance }}</p>
+                      </td>
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0">{{ transaction.payment_method }}</p>
                       </td>
                       <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">{{ transaction.created_at }}</span>

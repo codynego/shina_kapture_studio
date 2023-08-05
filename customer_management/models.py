@@ -34,7 +34,7 @@ class Gallery(models.Model):
     created_at = models.DateTimeField(auto_created=True)
 
     def __str__(self):
-        return self.customer.name
+        return "f{self.customer.name}-{self.id}"
     
 
 class ServiceTransaction(models.Model):
@@ -43,6 +43,12 @@ class ServiceTransaction(models.Model):
         ("photoshoot", "photoshoot"),
         ("photo_printing", "photo_printing")
     )
+
+    PAYMENT_TYPE = (
+        ("Transfer", "Transfer"),
+        ("Cash", "Cash"),
+        ("POS", "POS")
+    )
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     type = models.CharField(max_length=20, choices=SERVICE_TYPE)
     quantity = models.PositiveIntegerField(null=True)
@@ -50,9 +56,10 @@ class ServiceTransaction(models.Model):
     total_amount = models.DecimalField(decimal_places=2, max_digits=20)
     amount_paid = models.DecimalField(decimal_places=2, max_digits=20)
     balance = models.DecimalField(decimal_places=2, max_digits=20)
+    payment_method = models.CharField(max_length=20, choices=PAYMENT_TYPE, null=True)
     images = models.ForeignKey(Gallery, on_delete=models.CASCADE, null=True, blank=True)
 
 
     def __str__(self):
-        return self.customer.name
+        return "f{self.customer.name}-{self.id}"
      

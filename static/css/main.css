@@ -73,3 +73,12 @@
 .primary {
     background-color: #e91e63;
 }
+
+.detail {
+    padding: 20px;
+    margin: 20px;
+}
+
+.detail > h6 {
+    padding: 20px;
+}

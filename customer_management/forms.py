@@ -20,7 +20,7 @@ class TransactionCreateForm(forms.ModelForm):
 
     class Meta:
         model = ServiceTransaction
-        fields = ["customer", "type", "quantity", "total_amount", "amount_paid", "balance"]
+        fields = ["customer", "type", "quantity", "total_amount", "amount_paid", "balance", "payment_method"]
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=255)
