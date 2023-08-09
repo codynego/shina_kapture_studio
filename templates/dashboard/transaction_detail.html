@@ -6,6 +6,14 @@
 <!-- customer_detail.html -->
 
 <div class="container-fluid py-4">
+  
+  <div class="row">
+    <div class="col-12 btn">
+      <a href="{% url 'transaction_update' id=transaction.id %}">
+        <button>Edit</button>
+      </a>
+    </div>
+</div>
     <div class="row">
       <div class="col-12">
         <div class="card my-4">
@@ -15,9 +23,13 @@
             </div>
           </div>
           <div class="detail">
-            <h6>Customer Name:    {{ customer.name }}</h6>
-            <h6>Phone Number:    {{ customer.phone_address }}</h6>
-            <h6>Address:    {{ customer.address }}</h6>
+            <h6><strong>Customer Name:</strong> {{ transaction.customer.name }}</h6>
+            <h6><strong>Type:</strong>    {{ transaction.type }}</h6>
+            <h6><strong>Total Amount:</strong> {{ transaction.total_amount }}</h6>
+            <h6><strong>Amount Paid:</strong> {{ transaction.amount_paid }}</h6>
+            <h6><strong>Balance:</strong>  {{ transaction.balance }}</h6>
+            <h6><strong>Payment Method:</strong>  {{ transaction.payment_method }}</h6>
+            <h6><strong>Date:</strong>  {{ transaction.date }}</h6>
           </div>
         </div>
 

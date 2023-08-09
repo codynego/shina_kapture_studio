@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block "header" %}
+    {% include 'components/header.html'%}
+{% endblock "header" %}
+{% block "content" %}
+
+
+    <!-- Breadcrumb Begin -->
+    <div class="breadcrumb-option spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="bo-links">
+                        <a href="{% url 'home' %}"><i class="fa fa-home"></i> Home</a>
+                        <span>About</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+    <!-- Gallery Section Begin -->
+    <div class="gallery-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="filter-controls">
+                        <ul>
+                            <li class="active" data-filter="*">All</li>
+                            <li data-filter=".fashion">Fashion</li>
+                            <li data-filter=".lifestyle">Lifestyle</li>
+                            <li data-filter=".natural">Natural</li>
+                            <li data-filter=".wedding">Wedding</li>
+                            <li data-filter=".videos">Videos</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 p-0">
+                <div class="gallery-filter" id="search-results">
+                    {% for gallery in gallerys %}
+                    <div class="gf-item set-bg {{gallery.image_width}} {{gallery.category}}" data-setbg="{{ gallery.images.url }}">
+                        <a href="{{ gallery.images.url }}" class="gf-icon image-popup"><span class="icon_plus"></span></a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+          {% if page.has_previous %}
+              <li class="page-item">
+                  <a class="page-link" href="?page={{ page.previous_page_number }}">prev</a>
+              </li>
+          {% else %}
+              <li class="page-item disabled">
+                  <a class="page-link">Prev</a>
+              </li>
+          {% endif %}
+  
+          {% for num in page.paginator.page_range %}
+              <li class="page-item {% if num == page.number %}active{% endif %}">
+                  <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+              </li>
+          {% endfor %}
+  
+          {% if page.has_next %}
+              <li class="page-item">
+                  <a class="page-link" href="?page={{ page.next_page_number }}">next</a>
+              </li>
+          {% else %}
+              <li class="page-item disabled">
+                  <a class="page-link">Next</a>
+              </li>
+          {% endif %}
+      </ul>
+  </nav>
+    </div>
+    <!-- Gallery Section End -->
+    
+    {% endblock "content" %}
+
+    {% block "footer" %}
+        {% include 'components/footer.html'%}
+    {% endblock "footer" %}

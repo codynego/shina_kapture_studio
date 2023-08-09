@@ -35,21 +35,22 @@
                     <div class="fs-widget">
                         <h5>Quick links</h5>
                         <ul>
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">About</a></li>
-                            <li><a href="#">Contact</a></li>
+                            <li><a href="{% url 'home' %}">Home</a></li>
+                            <li><a href="{% url 'about' %}">About</a></li>
+                            <li><a href="{% url 'contact' %}">Contact</a></li>
                         </ul>
                         <ul>
-                            <li><a href="#">Gallery</a></li>
-                            <li><a href="#">Portfolio</a></li>
-                            <li><a href="#">Services</a></li>
+                            <li><a href="{% url 'portfolio' %}">Gallery</a></li>
+                            <li><a href="{% url 'services' %}">Services</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="fs-widget">
                         <h5>Subscribe</h5>
-                        <p>Imolor amet consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
+                        <p>Reach out 
+                            today for a conversation that matters. 
+                            Your thoughts and ideas are important to us..</p>
                         <div class="fw-subscribe">
                             <form action="#">
                                 <input type="text" placeholder="Email">

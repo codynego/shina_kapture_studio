@@ -9,58 +9,60 @@
           <input type="text" class="form-control" id="search-input">
         </div>
       </div>
+
       <div class="row">
-          <div class="col-12 btn">
-            <a href="{% url 'customer_create' %}">
-              <button>add New</button>
-            </a>
-          </div>
-      </div>
+        <div class="col-12 btn">
+          <a href="{% url 'transaction_create' %}">
+            <button>add New</button>
+          </a>
+        </div>
+    </div>
+
       <div class="row">
         <div class="col-12">
           <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">Customers</h6>
+                <h6 class="text-white text-capitalize ps-3">Contacts</h6>
               </div>
             </div>
             <div class="card-body px-0 pb-2">
               <div class="table-responsive p-0">
                 <table class="table align-items-center mb-0">
-                  <thead>
+                  <thead id="search-result">
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Customers</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Name</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Phone Number</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Address</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Email Address</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
                       <th class="text-secondary opacity-7"></th>
                     </tr>
                   </thead>
                   <tbody id="search-results">
-                    {% for customer in customers %}
+                    {% for contact in contacts %}
                     <tr>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">{{ customer.id }}</p>
+                        <p class="text-xs font-weight-bold mb-0">{{ contact.id }}</p>
                       </td>
                       <td>
                         <div class="d-flex px-2 py-1">
                           <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">{{ customer.name }}</h6>
+                            <h6 class="mb-0 text-sm">{{ contact.name }}</h6>
                           </div>
                         </div>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">{{ customer.phone_number }}</p>
+                        <p class="text-xs font-weight-bold mb-0">{{ contact.phone_number }}</p>
                       </td>
                       <td class="align-middle text-center d-flex px-2 py-4">
-                        <p class="text-xs font-weight-bold mb-0">{{ customer.address }}</p>
+                        <p class="text-xs font-weight-bold mb-0">{{ contact.email_address }}</p>
                       </td>
                       <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">{{ customer.date }}</span>
+                        <span class="text-secondary text-xs font-weight-bold">{{ contact.date }}</span>
                       </td>
                       <td class="align-middle">
-                        <a href="{% url 'customer_detail' id=customer.id %}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        <a href="{% url 'customer_detail' id=contact.id %}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
                           View
                         </a>
                       </td>
@@ -68,7 +70,6 @@
                     {% endfor %}
                   </tbody>
                 </table>
-                <br>
                 <nav aria-label="Page navigation example">
                   <ul class="pagination justify-content-center">
                       {% if page.has_previous %}
@@ -98,67 +99,10 @@
                       {% endif %}
                   </ul>
               </nav>
-              
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script>
-    function updateSearchResults() {
-      var query = $('#search-input').val();
-      if (query) {
-        $.ajax({
-          url: '/customer_search/',
-          data: { 'q': query },
-          dataType: 'json',
-          success: function(data) {
-            var resultsContainer = $('#search-results');
-            resultsContainer.empty();  // Clear previous results
-  
-            if (data.customers.length > 0) {
-              data.customers.forEach(function(customer) {
-                var newRow = `
-                  <tr>
-                    <td><p class="text-xs font-weight-bold mb-0">${customer.id}</p></td>
-                    <td>
-                      <div class="d-flex px-2 py-1">
-                        <div class="d-flex flex-column justify-content-center">
-                          <h6 class="mb-0 text-sm">${customer.name}</h6>
-                        </div>
-                      </div>
-                    </td>
-                    <td><p class="text-xs font-weight-bold mb-0">${customer.phone_number}</p></td>
-                    <td class="align-middle text-center d-flex px-2 py-4">
-                      <p class="text-xs font-weight-bold mb-0">${customer.address}</p>
-                    </td>
-                    <td class="align-middle text-center">
-                      <span class="text-secondary text-xs font-weight-bold">${customer.date}</span>
-                    </td>
-                    <td class="align-middle">
-                      <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                        view
-                      </a>
-                    </td>
-                  </tr>
-                `;
-                resultsContainer.append(newRow);
-              });
-            } else {
-              var noResultsItem = $('<tr><td colspan="6">No results found.</td></tr>');
-              resultsContainer.append(noResultsItem);
-            }
-          }
-        });
-      } else {
-
-      }
-    }
-  
-    // Update the search results every 5 seconds (5000 milliseconds)
-    setInterval(updateSearchResults, 500);
-  </script>
 {% endblock "content" %}

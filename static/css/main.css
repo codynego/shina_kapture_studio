@@ -80,5 +80,25 @@
 }
 
 .detail > h6 {
-    padding: 20px;
+    padding: 10px;
+}
+
+
+.logo img {
+    width: 100px;
+    height: 100px;
+    margin: 0;
+    padding: 0;
+}
+
+.logo {
+    margin: 0;
+    padding: 0;
+    margin-right: 250px;
+    margin-left: 20px;
+}
+
+
+.navv {
+margin-left: 100px;
 }

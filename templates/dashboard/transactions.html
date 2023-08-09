@@ -12,7 +12,7 @@
 
       <div class="row">
         <div class="col-12 btn">
-          <a href="{% url 'customer_create' %}">
+          <a href="{% url 'transaction_create' %}">
             <button>add New</button>
           </a>
         </div>
@@ -71,17 +71,47 @@
                         <p class="text-xs font-weight-bold mb-0">{{ transaction.payment_method }}</p>
                       </td>
                       <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">{{ transaction.created_at }}</span>
+                        <span class="text-secondary text-xs font-weight-bold">{{ transaction.date }}</span>
                       </td>
                       <td class="align-middle">
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                          view
+                        <a href="{% url 'transaction_detail' id=transaction.id %}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                          View
                         </a>
                       </td>
                     </tr>
                     {% endfor %}
                   </tbody>
                 </table>
+                <br>
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination justify-content-center">
+                      {% if page.has_previous %}
+                          <li class="page-item">
+                              <a class="page-link" href="?page={{ page.previous_page_number }}">prev</a>
+                          </li>
+                      {% else %}
+                          <li class="page-item disabled">
+                              <a class="page-link">Prev</a>
+                          </li>
+                      {% endif %}
+              
+                      {% for num in page.paginator.page_range %}
+                          <li class="page-item {% if num == page.number %}active{% endif %}">
+                              <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                          </li>
+                      {% endfor %}
+              
+                      {% if page.has_next %}
+                          <li class="page-item">
+                              <a class="page-link" href="?page={{ page.next_page_number }}">next</a>
+                          </li>
+                      {% else %}
+                          <li class="page-item disabled">
+                              <a class="page-link">Next</a>
+                          </li>
+                      {% endif %}
+                  </ul>
+              </nav>
               </div>
             </div>
           </div>
@@ -91,20 +121,23 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-      function updateSearchResults() {
-        var query = $('#search-input').val();
-        if (query) {
-          $.ajax({
-            url: '/transaction_search/',
-            data: { 'q': query },
-            dataType: 'json',
-            success: function(data) {
-              var resultsContainer = $('#search-results');
-              resultsContainer.empty();  // Clear previous results
-    
-              if (data.transactions.length > 0) {
-                data.transactions.forEach(function(transaction) {
-                  var newRow = `
+    function updateSearchResults() {
+      var query = document.getElementById('search-input').value;
+      
+      if (query) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/transaction_search/?q=' + query, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        
+        xhr.onload = function() {
+          if (xhr.status === 200) {
+            var data = JSON.parse(xhr.responseText);
+            var resultsContainer = document.getElementById('search-results');
+            resultsContainer.innerHTML = ''; // Clear previous results
+            
+            if (data.transactions.length > 0) {
+              data.transactions.forEach(function(transaction) {
+                var newRow = `
                   <tr>
                     <td>
                       <div class="d-flex px-2 py-1">
@@ -140,19 +173,23 @@
                       </a>
                     </td>
                   </tr>
-                  `;
-                  resultsContainer.append(newRow);
-                });
-              } else {
-                var noResultsItem = $('<tr><td colspan="6">No results found.</td></tr>');
-                resultsContainer.append(noResultsItem);
-              }
+                `;
+                resultsContainer.insertAdjacentHTML('beforeend', newRow);
+              });
+            } else {
+              var noResultsItem = document.createElement('tr');
+              noResultsItem.innerHTML = '<td colspan="6">No results found.</td>';
+              resultsContainer.appendChild(noResultsItem);
             }
-          });
-        }
+          }
+        };
+        
+        xhr.send();
       }
+    }
     
-      // Update the search results every 5 seconds (5000 milliseconds)
-      setInterval(updateSearchResults, 500);
-    </script>
+    // Update the search results every 5 seconds (5000 milliseconds)
+    setInterval(updateSearchResults, 500);
+  </script>
+    
 {% endblock "content" %}

@@ -15,10 +15,10 @@
                     <div class="col-lg-12">
                         <div class="hs-text">
                             <h2>Shina Kapture Studio</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et<br /> dolore magna aliqua. Quis ipsum suspendisse ultrices
-                                gravida accumsan lacus vel facilisis.</p>
-                            <a href="#" class="primary-btn primary">Contact us</a>
+                            <p>At Shina Kapture Studio, we believe in images that speak volumes. 
+                                Our skilled photographers blend 
+                                state-of-the-art technology with an artistic eye, resulting in visuals that stand out.</p>
+                            <a href="{% url 'contact' %}" class="primary-btn primary">Contact us</a>
                         </div>
                     </div>
                 </div>
@@ -30,9 +30,9 @@
                     <div class="col-lg-12">
                         <div class="hs-text">
                             <h2>Shina Kapture Studio</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et<br /> dolore magna aliqua. Quis ipsum suspendisse ultrices
-                                gravida accumsan lacus vel facilisis.</p>
+                            <p>Step into our world of photography and rediscover the beauty around you. 
+                                Our lens captures the extraordinary in the ordinary, 
+                                turning fleeting moments into lifelong treasures</p>
                             <a href="#" class="primary-btn primary">Contact us</a>
                         </div>
                     </div>
@@ -51,24 +51,26 @@
                 <div class="services-item">
                     <img src="{% static 'img/services/service-1.jpg' %}" alt="">
                     <h3>Shooting</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                        magna aliqua. Quis ipsum suspendisse ultrices gravida.</p>
+                    <p>Capturing the essence of your moments is our passion.<br> From personal portraits to special occasions,<br>
+                        our skilled photographers turn your memories into treasures.</p>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="services-item">
                     <img src="{% static 'img/services/service-2.jpg' %}" alt="">
                     <h3>Videos</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                        magna aliqua. Quis ipsum suspendisse ultrices gravida.</p>
+                    <p>Experience your story in motion. Our videographers blend creativity and<br> 
+                        technology to bring your vision to life on screen, 
+                        whether it's a wedding, event, or brand story..</p>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="services-item">
                     <img src="{% static 'img/services/service-3.jpg' %}" alt="">
                     <h3>Editing</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                        magna aliqua. Quis ipsum suspendisse ultrices gravida.</p>
+                    <p>Our meticulous editing transforms visuals into art. With precision and creativity,<br> 
+                        we enhance colors, lighting, and 
+                        effects to elevate your content to its fullest potential.</p>
                 </div>
             </div>
         </div>
@@ -83,8 +85,8 @@
             <div class="col-lg-6 col-md-6">
                 <div class="section-title">
                     <h2>Categories</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do<br /> eiusmod tempor
-                        incididunt ut labore et dolore.</p>
+                    <p>Discover the spectrum of services, 
+                        each meticulously designed to capture your unique moments.</p>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6">
@@ -156,92 +158,18 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12 p-0">
-                <div class="portfolio-filter">
-                    <div class="pf-item set-bg fashion" data-setbg="{% static 'img/portfolio/pf-1.jpg' %}">
-                        <a href="{% static 'img/portfolio/pf-1.jpg' %}" class="pf-icon image-popup"><span class="icon_plus"></span></a>
-                        <div class="pf-text">
-                            <h4>COLORS SPEAK</h4>
-                            <span>Fashion</span>
-                        </div>
+                <div class="gallery-filter" id="search-results">
+                    {% for gallery in gallerys %}
+                    <div class="gf-item set-bg {{gallery.image_width}} {{gallery.category}}" data-setbg="{{ gallery.images.url }}">
+                        <a href="{{ gallery.images.url }}" class="gf-icon image-popup"><span class="icon_plus"></span></a>
                     </div>
-                    <div class="pf-item large-width large-height set-bg lifestyle"
-                        data-setbg="{% static 'img/portfolio/pf-2.jpg' %}">
-                        <a href="{% static 'img/portfolio/pf-2.jpg' %}" class="pf-icon image-popup"><span class="icon_plus"></span></a>
-                        <div class="pf-text">
-                            <h4>COLORS SPEAK</h4>
-                            <span>Fashion</span>
-                        </div>
-                    </div>
-                    <div class="pf-item large-width set-bg natural" data-setbg="{% static 'img/portfolio/pf-3.jpg' %}">
-                        <a href="{% static 'img/portfolio/pf-3.jpg' %}" class="pf-icon image-popup"><span class="icon_plus"></span></a>
-                        <div class="pf-text">
-                            <h4>COLORS SPEAK</h4>
-                            <span>Fashion</span>
-                        </div>
-                    </div>
-                    <div class="pf-item large-height set-bg wedding" data-setbg="{% static 'img/portfolio/pf-4.jpg' %}">
-                        <a href="{% static 'img/portfolio/pf-4.jpg' %}" class="pf-icon image-popup"><span class="icon_plus"></span></a>
-                        <div class="pf-text">
-                            <h4>COLORS SPEAK</h4>
-                            <span>Fashion</span>
-                        </div>
-                    </div>
-                    <div class="pf-item set-bg lifestyle" data-setbg="{% static 'img/portfolio/pf-7.jpg' %}">
-                        <a href="{% static 'img/portfolio/pf-7.jpg' %}" class="pf-icon image-popup"><span class="icon_plus"></span></a>
-                        <div class="pf-text">
-                            <h4>COLORS SPEAK</h4>
-                            <span>Fashion</span>
-                        </div>
-                    </div>
-                    <div class="pf-item set-bg natural" data-setbg="{% static 'img/portfolio/pf-8.jpg' %}">
-                        <a href="{% static 'img/portfolio/pf-8.jpg' %}" class="pf-icon image-popup"><span class="icon_plus"></span></a>
-                        <div class="pf-text">
-                            <h4>COLORS SPEAK</h4>
-                            <span>Fashion</span>
-                        </div>
-                    </div>
-                    <div class="pf-item set-bg videos" data-setbg="{% static 'img/portfolio/pf-5.jpg' %}">
-                        <a href="{% static 'img/portfolio/pf-5.jpg' %}" class="pf-icon image-popup"><span class="icon_plus"></span></a>
-                        <div class="pf-text">
-                            <h4>COLORS SPEAK</h4>
-                            <span>Fashion</span>
-                        </div>
-                    </div>
-                    <div class="pf-item set-bg fashion" data-setbg="{% static 'img/portfolio/pf-6.jpg' %}">
-                        <a href="{% static 'img/portfolio/pf-6.jpg' %}" class="pf-icon image-popup"><span class="icon_plus"></span></a>
-                        <div class="pf-text">
-                            <h4>COLORS SPEAK</h4>
-                            <span>Fashion</span>
-                        </div>
-                    </div>
-                    <div class="pf-item large-width set-bg videos" data-setbg="{% static 'img/portfolio/pf-10.jpg' %}">
-                        <a href="{% static 'img/portfolio/pf-10.jpg' %}" class="pf-icon image-popup"><span class="icon_plus"></span></a>
-                        <div class="pf-text">
-                            <h4>COLORS SPEAK</h4>
-                            <span>Fashion</span>
-                        </div>
-                    </div>
-                    <div class="pf-item set-bg fashion" data-setbg="{% static 'img/portfolio/pf-11.jpg' %}">
-                        <a href="{% static 'img/portfolio/pf-11.jpg' %}" class="pf-icon image-popup"><span class="icon_plus"></span></a>
-                        <div class="pf-text">
-                            <h4>COLORS SPEAK</h4>
-                            <span>Fashion</span>
-                        </div>
-                    </div>
-                    <div class="pf-item large-width large-height set-bg wedding"
-                        data-setbg="{% static 'img/portfolio/pf-9.jpg' %}">
-                        <a href="{% static 'img/portfolio/pf-9.jpg' %}" class="pf-icon image-popup"><span class="icon_plus"></span></a>
-                        <div class="pf-text">
-                            <h4>COLORS SPEAK</h4>
-                            <span>Fashion</span>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
     </div>
     <div class="load-more-btn">
-        <a href="#">Load More</a>
+        <a href="{% url 'portfolio' %}">Load More</a>
     </div>
 </section>
 <!-- Portfolio Section End -->
