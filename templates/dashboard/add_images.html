@@ -1,0 +1,59 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block "content" %}
+    <div class="container-fluid py-4">
+      <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+        <div class="input-group input-group-outline">
+          <label class="form-label">search here...</label>
+          <input type="text" class="form-control" id="search-input">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 btn">
+          <a href="{% url 'transaction_create' %}">
+            <button>add New</button>
+          </a>
+        </div>
+    </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3">Transactions</h6>
+              </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+              <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label for="title">Title:</label>
+                <input type="text" name="title" id="title">
+                <br>
+                <label for="age">Age Group:</label>
+                <select name="age" id="age">
+                    <option value="below 1 year">Below 1 year</option>
+                    <option value="teenager">Teenager</option>
+                    <option value="adult">Adult</option>
+                </select>
+                <br>
+                <label for="image">Image:</label>
+                <input type="file" name="images" id="images" multiple>
+                <br>
+                <label for="category">Category:</label>
+                <select name="category" id="category">
+                    <option value="fashion">Fashion</option>
+                    <option value="lifestyle">Lifestyle</option>
+                    <option value="natural">Natural</option>
+                    <option value="videos">Videos</option>
+                </select>
+                <br>
+                <input type="submit" value="Add Image">
+            </form>
+            </div>
+
+        </div>
+
+{% endblock "content" %}

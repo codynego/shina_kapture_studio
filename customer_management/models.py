@@ -30,19 +30,7 @@ class Contact(models.Model):
         return self.name
     
 
-class Gallery(models.Model):
-    CATEGORY = (
-        ("fashion", "wedding"),
-        ("lifestyle", "birthday"),
-        ("natural", "family pics"),
-        ("videos", "others")
-    )
-
-    AGE_GROUP = (
-        ("below 1 year", "below 1 year"),
-        ("teenager", "teenager"),
-        ("adult", "adult")
-    )
+class Image(models.Model):
 
     WIDTH = (
         ("large-small-height", "large-small-height"),
@@ -52,23 +40,47 @@ class Gallery(models.Model):
         ("large-height", "large-height"),
 
     )
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    title = models.CharField(max_length=100, null=True, blank=True)
-    description = models.TextField(null=True, blank=True)
-    category = models.CharField(max_length=100, null=True, blank=True, choices=CATEGORY)
-    images = models.ImageField(upload_to="images/")
+
+    AGE_GROUP = (
+        ("below 1 year", "below 1 year"),
+        ("teenager", "teenager"),
+        ("adult", "adult")
+    )
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True)
     age = models.CharField(max_length=20, choices=AGE_GROUP, null=True)
+    image = models.ImageField(upload_to='images/')
     image_width = models.CharField(max_length=20, choices=WIDTH, editable=False, null=True)
     status = models.BooleanField(default=False, null=True)
     date = models.DateField(auto_now_add=True, null=True)
 
     def __str__(self):
-        return f"{self.customer.name}-{self.id}"
+        return f"{self.id}"
     
     def save(self, *args, **kwargs):
         if not self.image_width:
             self.image_width = random.choice([choice[0] for choice in self.WIDTH])
-        super().save(*args, **kwargs)
+        super().save(*args, **kwargs)                      
+
+    
+
+class Gallery(models.Model):
+    CATEGORY = (
+        ("fashion", "wedding"),
+        ("lifestyle", "birthday"),
+        ("natural", "family pics"),
+        ("videos", "others")
+    )
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    category = models.CharField(max_length=100, null=True, blank=True, choices=CATEGORY)
+    date = models.DateField(auto_now_add=True, null=True)
+
+    images = models.ManyToManyField(Image)
+
+    def __str__(self):
+        return f"{self.title}-{self.customer.name}-{self.id}"
+    
     
 
 class ServiceTransaction(models.Model):

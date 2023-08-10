@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 django = "*"
 pillow = "*"
+face-recognition = "*"
+dlib = "*"
 
 [dev-packages]
 

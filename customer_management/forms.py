@@ -61,9 +61,4 @@ class LoginForm(forms.Form):
 class GalleryForm(forms.ModelForm):
     class Meta:
         model = Gallery 
-        fields = ['customer', 'title', 'description', 'images', 'category']
-
-
-class ImageUploadForm(forms.Form):
-    image = forms.ImageField()
-
+        fields = ['customer', 'title', 'description', 'images']

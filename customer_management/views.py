@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from .models import Customer, ServiceTransaction, Gallery, Analytics, Contact
+from .models import Customer, ServiceTransaction, Gallery, Analytics, Contact, Image
 from .forms import CustomerForm, LoginForm, TransactionForm, TransactionCreateForm, GalleryForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
@@ -11,6 +11,11 @@ from datetime import datetime, timedelta
 from django.utils import timezone
 from datetime import timedelta
 from django.core.paginator import Paginator
+from django.core.files.storage import FileSystemStorage
+import json
+from django.urls import reverse
+
+
 
 
 def home(request):
@@ -20,7 +25,7 @@ def home(request):
     instance.save()
 
     items_per_page = 5
-    gallery = Gallery.objects.filter(status=True)
+    gallery = Image.objects.filter(status=True)
     paginator = Paginator(gallery, items_per_page)
 
     page_number = request.GET.get('page')  # Get the requested page number from the URL parameter
@@ -315,10 +320,18 @@ def transaction_detail(request, id):
     if request.user.is_authenticated:
         if ServiceTransaction.objects.filter(id=id).exists:
             transaction = ServiceTransaction.objects.get(id=id)
-            gallery = Gallery.objects.filter(id=id)
+            customer = Customer.objects.get(id=transaction.customer.id)
+            gallery = Image.objects.filter(customer=customer)
+            
+            items_per_page = 10
+            paginator = Paginator(gallery, items_per_page)
+            page_number = request.GET.get('page')
+            page = paginator.get_page(page_number)
+
             context = {
                 "transaction": transaction,
-                "gallery": gallery
+                "gallery": gallery,
+                'page': page
             }
         else:
             return HttpResponse("404 not found")
@@ -332,10 +345,17 @@ def customer_detail(request, id):
     if request.user.is_authenticated:
         if Customer.objects.filter(id=id).exists:
             customer = Customer.objects.get(id=id)
-            gallery = Gallery.objects.filter(id=id)
+            gallery = Image.objects.filter(customer=customer)
+
+            items_per_page = 10
+            paginator = Paginator(gallery, items_per_page)
+            page_number = request.GET.get('page')
+            page = paginator.get_page(page_number)
+
             context = {
                 "customer": customer,
-                "gallery": gallery
+                "gallery": gallery,
+                'page': page
             }
         else:
             return HttpResponse("404 not found")
@@ -346,28 +366,48 @@ def customer_detail(request, id):
 
 @login_required
 def gallery(request):
-    items_per_page = 5
-    gallery = Gallery.objects.all()
-    paginator = Paginator(gallery, items_per_page)
+    items_per_page = 15
+    query = request.GET.get('q')  # Get the search query from the URL parameter
 
-    page_number = request.GET.get('page')  # Get the requested page number from the URL parameter
+    if query:
+        gallerys = Image.objects.filter(
+            Q(name__icontains=query) | 
+            Q(age__icontains=query) |
+            Q(date__icontains=query) 
+        )
+    else:
+        gallerys = Image.objects.all()
+
+    paginator = Paginator(gallerys, items_per_page)
+    page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
 
     context = {
-        "gallerys": page,
-        "page": page
+        "gallerys": page, 
+        "page": page,
     }
     return render(request, 'dashboard/gallery.html', context)
 
-"""def add_gallery_item(request):
+def add_images_to_gallery(request, id):
     if request.method == 'POST':
-        form = GalleryForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('gallery')
-    else:
-        form = GalleryForm()
-    return render(request, 'gallery/add_gallery_item.html', {'form': form})"""
+        title = request.POST['title']
+        #description = request.POST['description']
+        age_group = request.POST['age']
+        category  = request.POST['category']
+        images = request.FILES.getlist('images')
+
+        # Create a new gallery entry
+        customer = Customer.objects.get(id=id)
+        gallery = Gallery.objects.create(title=title, customer=customer, category=category)
+
+
+        # Save the images to the gallery
+        for image in images:
+            gallery.images.create(customer=customer, image=image, age=age_group)
+
+        return redirect(reverse('customer_detail', args=[id]))  # Redirect to the gallery page
+
+    return render(request, 'dashboard/add_images.html')
 
 from django.http import JsonResponse
 

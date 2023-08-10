@@ -11,7 +11,8 @@ urlpatterns = [
     path('customers/', views.customer_list, name="customers"),
     path('contacts/', views.contact_list, name="contacts"),
     path('customer_create/', views.customer_create, name="customer_create"),
-    path('customer_detail/<int:id>/', views.customer_detail, name="customer_detail"),
+    path('customer/<int:id>/', views.customer_detail, name="customer_detail"),
+    path('customer/<int:id>/gallery/add/', views.add_images_to_gallery, name="add_images"),
     path('customer_update/<int:id>/', views.customer_update, name="customer_update"),
     path('transaction_create/', views.transaction_create, name="transaction_create"),
     path('transaction_update/<int:id>/', views.transaction_update, name="transaction_update"),
@@ -30,4 +31,5 @@ urlpatterns = [
     path('api/monthly-sales/', views.monthly_sales_data, name='monthly_sales_data'),
     path('api/weekly-sales/', views.weekly_sales_data, name='weekly_sales_data'),
     path('api/weekly-views/', views.weekly_views_data, name='weekly_views_data'),
+    path('add-images/', views.add_images_to_gallery, name='add_images'),
 ]
