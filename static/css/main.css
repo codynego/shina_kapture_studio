@@ -123,3 +123,22 @@
     border-radius: 5px;
 
 }
+
+
+.form-image {
+    padding: 20px;
+}
+
+
+.img-btn {
+    display: flex;
+    align-self: center;
+    border: none;
+    outline: none;
+    width: 150px;
+    height: 40px;
+    background-color: #e91e63;
+    color: white;
+    justify-content: center;
+    border-radius: 10px;
+}
